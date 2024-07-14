@@ -25,7 +25,7 @@ function App() {
       const data = await fetch(
         `https://api.fda.gov/drug/label.json${
           search.length > 0
-            ? `?search=openfda.brand_name:${search}&limit=6`
+            ? `?search=openfda.brand_name:${search}*&limit=6`
             : ""
         }`
       )
