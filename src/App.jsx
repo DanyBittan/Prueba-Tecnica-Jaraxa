@@ -23,14 +23,12 @@ function App() {
     if (!isLoading) setIsLoading(true);
     const timer = setTimeout(async () => {
       const data = await fetch(
-        `https://api.fda.gov/drug/label.json${
-          search.length > 0
-            ? `?search=openfda.brand_name:${search}*&limit=6`
-            : ""
+        `https://api.fda.gov/drug/label.json${search.length > 0
+          ? `?search=openfda.brand_name:${search}*&limit=6`
+          : ""
         }`
       )
         .then((result) => result.json())
-        .then((a) => a)
         .catch((err) => {
           alert(err);
         })
@@ -43,6 +41,7 @@ function App() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
+  console.log(searchData);
 
   return (
     <>

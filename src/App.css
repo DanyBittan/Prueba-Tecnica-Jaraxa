@@ -1,0 +1,50 @@
+body {
+    background-color: #121212;
+    /* Fondo oscuro */
+    color: #e0e0e0;
+    /* Texto claro */
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+.spinwheel {
+    color: #90caf9;
+    /* Azul clarito para el loading */
+}
+
+.MuiCard-root {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333 !important;
+}
+
+.MuiTypography-root {
+    color: #e0e0e0 !important;
+}
+
+.MuiTextField-root input {
+    color: #e0e0e0;
+}
+
+.MuiInputLabel-root {
+    color: #b0b0b0 !important;
+}
+
+.MuiOutlinedInput-root {
+    fieldset {
+        border-color: #555 !important;
+    }
+}
+
+.MuiOutlinedInput-root:hover fieldset {
+    border-color: #90caf9 !important;
+    /* Hover azul */
+}
+
+.MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #42a5f5 !important;
+    /* Azul cuando está seleccionado */
+}
