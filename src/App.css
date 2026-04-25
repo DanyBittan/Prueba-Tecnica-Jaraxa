@@ -785,6 +785,16 @@
   color: #90a4ae;
 }
 
+.app-container.dark .info-section .section-header h6,
+.app-container.dark .info-section .section-header {
+  color: #e0e0e0;
+}
+
+.app-container.dark .info-section .section-header.warning h6,
+.app-container.dark .info-section .section-header.warning {
+  color: #ffe0b2;
+}
+
 /* Light theme Description */
 .app-container.light .back-button {
   color: #00796b;
