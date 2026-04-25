@@ -1,50 +1,876 @@
-body {
-    background-color: #121212;
-    /* Fondo oscuro */
-    color: #e0e0e0;
-    /* Texto claro */
-    font-family: "Roboto", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --transition-speed: 0.3s;
 }
 
-a {
-    color: inherit;
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  position: relative;
 }
 
-.spinwheel {
-    color: #90caf9;
-    /* Azul clarito para el loading */
+.theme-toggle-corner {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
 }
 
-.MuiCard-root {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-    border: 1px solid #333 !important;
+.theme-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  transition: all var(--transition-speed);
 }
 
-.MuiTypography-root {
-    color: #e0e0e0 !important;
+.theme-toggle {
+  margin-top: 8px;
 }
 
-.MuiTextField-root input {
-    color: #e0e0e0;
+/* Dark Theme (Default) */
+.app-container.dark {
+  background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #0d1b2a 100%);
+  color: #e0e0e0;
 }
 
-.MuiInputLabel-root {
-    color: #b0b0b0 !important;
+.app-container.dark .hero-background {
+  background: linear-gradient(135deg, rgba(0, 121, 107, 0.15) 0%, rgba(13, 27, 42, 0.8) 100%);
 }
 
-.MuiOutlinedInput-root {
-    fieldset {
-        border-color: #555 !important;
-    }
+.app-container.dark .app-title {
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 150, 136, 0.5);
 }
 
-.MuiOutlinedInput-root:hover fieldset {
-    border-color: #90caf9 !important;
-    /* Hover azul */
+.app-container.dark .tagline {
+  color: #b0bec5;
 }
 
-.MuiOutlinedInput-root.Mui-focused fieldset {
-    border-color: #42a5f5 !important;
-    /* Azul cuando está seleccionado */
+.app-container.dark .search-container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.app-container.dark .search-container:focus-within {
+  border-color: rgba(0, 150, 136, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 150, 136, 0.2);
+}
+
+.app-container.dark .search-input input {
+  color: #ffffff;
+}
+
+.app-container.dark .search-input input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.app-container.dark .search-icon {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.app-container.dark .theme-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.app-container.dark .theme-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.app-container.dark .drug-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.app-container.dark .drug-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 150, 136, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 150, 136, 0.1);
+  transform: translateY(-4px);
+}
+
+.app-container.dark .drug-name {
+  color: #ffffff;
+}
+
+.app-container.dark .manufacturer-chip {
+  background: rgba(0, 150, 136, 0.15);
+  color: #80cbc4;
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.dark .card-icon {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.app-container.dark .drug-purpose {
+  color: #b0bec5;
+}
+
+.app-container.dark .details-chip {
+  color: #80cbc4;
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.dark .details-chip:hover {
+  background: rgba(0, 150, 136, 0.1);
+}
+
+.app-container.dark .no-results {
+  color: #b0bec5;
+}
+
+.app-container.dark .no-results-icon {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.app-container.dark .loading-text {
+  color: #80cbc4;
+}
+
+.app-container.dark .pulse-core {
+  background: linear-gradient(135deg, #00796b, #004d40);
+  color: #80cbc4;
+}
+
+.app-container.dark .pulse-ring {
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.dark .footer {
+  color: #607d8b;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Light Theme */
+.app-container.light {
+  background: linear-gradient(135deg, #e0f2f1 0%, #f5f7fa 50%, #e8f5e9 100%);
+  color: #263238;
+}
+
+.app-container.light .hero-background {
+  background: linear-gradient(135deg, rgba(0, 150, 136, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+.app-container.light .app-title {
+  color: #004d40;
+  text-shadow: 0 4px 20px rgba(0, 121, 107, 0.2);
+}
+
+.app-container.light .tagline {
+  color: #546e7a;
+}
+
+.app-container.light .search-container {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 150, 136, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.app-container.light .search-container:focus-within {
+  border-color: rgba(0, 150, 136, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 150, 136, 0.15);
+}
+
+.app-container.light .search-input input {
+  color: #263238;
+}
+
+.app-container.light .search-input input::placeholder {
+  color: #90a4ae;
+}
+
+.app-container.light .search-icon {
+  color: #00796b;
+}
+
+.app-container.light .theme-button {
+  color: #004d40;
+  background: rgba(0, 150, 136, 0.1);
+}
+
+.app-container.light .theme-button:hover {
+  background: rgba(0, 150, 136, 0.2);
+}
+
+.app-container.light .drug-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 150, 136, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.app-container.light .drug-card:hover {
+  background: #ffffff;
+  border-color: rgba(0, 150, 136, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 150, 136, 0.1);
+  transform: translateY(-4px);
+}
+
+.app-container.light .drug-name {
+  color: #004d40;
+}
+
+.app-container.light .manufacturer-chip {
+  background: rgba(0, 150, 136, 0.1);
+  color: #00796b;
+  border-color: rgba(0, 150, 136, 0.2);
+}
+
+.app-container.light .card-icon {
+  color: rgba(0, 150, 136, 0.4);
+}
+
+.app-container.light .drug-purpose {
+  color: #546e7a;
+}
+
+.app-container.light .details-chip {
+  color: #00796b;
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.light .details-chip:hover {
+  background: rgba(0, 150, 136, 0.05);
+}
+
+.app-container.light .no-results {
+  color: #546e7a;
+}
+
+.app-container.light .no-results-icon {
+  color: rgba(0, 150, 136, 0.4);
+}
+
+.app-container.light .loading-text {
+  color: #00796b;
+}
+
+.app-container.light .pulse-core {
+  background: linear-gradient(135deg, #80cbc4, #b2dfdb);
+  color: #004d40;
+}
+
+.app-container.light .pulse-ring {
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.light .footer {
+  color: #90a4ae;
+  border-top: 1px solid rgba(0, 150, 136, 0.1);
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  padding: 80px 20px 60px;
+  overflow: hidden;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #00796b, #004d40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 150, 136, 0.4);
+}
+
+.app-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  letter-spacing: -0.5px;
+}
+
+.tagline {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 20px;
+  border-radius: 16px;
+  transition: all var(--transition-speed);
+}
+
+.search-icon {
+  margin-right: 12px;
+  font-size: 24px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+.search-input input {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  padding: 8px 0;
+}
+
+.search-input input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-input.Mui-focused {
+  outline: none;
+}
+
+.search-input .MuiInput-input {
+  border: none !important;
+}
+
+.search-input .MuiInput-input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.theme-toggle {
+  margin-top: 8px;
+}
+
+.theme-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  transition: all var(--transition-speed);
+}
+
+/* Results Section */
+.results-section {
+  padding: 40px 20px 60px;
+}
+
+.results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.drug-card {
+  border-radius: 20px;
+  padding: 24px;
+  transition: all var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 280px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.drug-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.drug-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.manufacturer-chip {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+}
+
+.card-body {
+  margin-bottom: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.drug-purpose-wrapper {
+  overflow: hidden;
+  max-height: 100px;
+  transition: max-height 0.3s ease;
+}
+
+.drug-purpose {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.detail-button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+}
+
+.detail-button:hover {
+  background: rgba(0, 150, 136, 0.1);
+}
+
+/* Light theme card actions */
+.app-container.light .detail-button {
+  color: #00796b;
+}
+
+.app-container.light .detail-button:hover {
+  background: rgba(0, 150, 136, 0.05);
+}
+
+/* Dark theme card actions */
+.app-container.dark .detail-button {
+  color: #80cbc4;
+}
+
+.app-container.dark .detail-button:hover {
+  background: rgba(0, 150, 136, 0.1);
+}
+
+/* Loading Animation */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 24px;
+}
+
+.pulse-spinner {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.pulse-ring.delay-1 {
+  animation-delay: 0.4s;
+}
+
+.pulse-ring.delay-2 {
+  animation-delay: 0.8s;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.pulse-core {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 150, 136, 0.3);
+}
+
+.pulse-core svg {
+  font-size: 20px;
+}
+
+.loading-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* No Results */
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+  text-align: center;
+}
+
+.no-results-icon {
+  font-size: 64px;
+  opacity: 0.5;
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  padding: 24px 20px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+}
+
+/* Description Page Styles */
+.back-button {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+}
+
+.description-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-card {
+  border-radius: 16px;
+  padding: 20px;
+  transition: all var(--transition-speed);
+}
+
+.main-card {
+  border: 1px solid;
+}
+
+.secondary-card {
+  border: 1px solid;
+}
+
+.main-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.main-card .drug-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.main-card .drug-name {
+  font-size: 1.5rem;
+}
+
+.main-card .manufacturer-chip {
+  width: fit-content;
+}
+
+.main-card .ndc-chip {
+  flex-shrink: 0;
+}
+
+.card-body-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.scroll-container {
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.section-divider {
+  margin: 16px 0;
+}
+
+.info-section {
+  padding: 16px;
+  border-radius: 12px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-section .section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.info-section .section-header svg {
+  color: #00796b;
+}
+
+.info-section .section-header.warning svg {
+  color: #f57c00;
+}
+
+.section-content {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.section-title {
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.detail-item {
+  padding: 12px;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.detail-label svg {
+  color: #00796b;
+}
+
+.detail-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Scrollable text wrapper */
+.scrollable-text {
+  max-height: 80px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.scrollable-text::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollable-text::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable-text::-webkit-scrollbar-thumb {
+  background: rgba(0, 150, 136, 0.3);
+  border-radius: 2px;
+}
+
+.scrollable-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 150, 136, 0.5);
+}
+
+/* Dark theme Description */
+.app-container.dark .back-button {
+  color: #80cbc4;
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.dark .back-button:hover {
+  background: rgba(0, 150, 136, 0.1);
+  border-color: #80cbc4;
+}
+
+.app-container.dark .main-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.app-container.dark .secondary-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.app-container.dark .ndc-chip {
+  background: rgba(0, 150, 136, 0.15);
+  color: #80cbc4;
+}
+
+.app-container.dark .generic-name,
+.app-container.dark .purpose-text {
+  color: #b0bec5;
+}
+
+.app-container.dark .section-title {
+  color: #ffffff;
+}
+
+.app-container.dark .info-section {
+  background: rgba(0, 150, 136, 0.05);
+}
+
+.app-container.dark .detail-item {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.app-container.dark .detail-label,
+.app-container.dark .detail-value {
+  color: #b0bec5;
+}
+
+.app-container.dark .section-content {
+  color: #90a4ae;
+}
+
+/* Light theme Description */
+.app-container.light .back-button {
+  color: #00796b;
+  border-color: rgba(0, 150, 136, 0.3);
+}
+
+.app-container.light .back-button:hover {
+  background: rgba(0, 150, 136, 0.05);
+  border-color: #00796b;
+}
+
+.app-container.light .main-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 150, 136, 0.15);
+}
+
+.app-container.light .secondary-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 150, 136, 0.15);
+}
+
+.app-container.light .ndc-chip {
+  background: rgba(0, 150, 136, 0.1);
+  color: #00796b;
+}
+
+.app-container.light .generic-name,
+.app-container.light .purpose-text {
+  color: #546e7a;
+}
+
+.app-container.light .section-title {
+  color: #004d40;
+}
+
+.app-container.light .info-section {
+  background: rgba(0, 150, 136, 0.03);
+}
+
+.app-container.light .detail-item {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.app-container.light .detail-label,
+.app-container.light .detail-value {
+  color: #546e7a;
+}
+
+.app-container.light .section-content {
+  color: #607d8b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .app-title {
+    font-size: 1.8rem;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+  }
+
+  .hero-section {
+    padding: 60px 16px 40px;
+    min-height: 320px;
+  }
+
+  .search-container {
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+
+  .results-container {
+    grid-template-columns: 1fr;
+  }
+
+  .drug-card {
+    padding: 20px;
+  }
+
+  .detail-card {
+    padding: 20px;
+  }
+
+  .detail-card .card-header {
+    flex-direction: column;
+    gap: 16px;
+  }
 }

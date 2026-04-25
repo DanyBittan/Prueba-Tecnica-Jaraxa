@@ -1,18 +1,44 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import { Grid } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Typography,
+  Card,
+  Container,
+  Fade,
+  Chip,
+  IconButton,
+  Tooltip,
+  Button,
+} from "@mui/material";
+import {
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon,
+  Search as SearchIcon,
+  LocalPharmacy as PharmacyIcon,
+  ArrowForward as ArrowForwardIcon,
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { IconLoading } from "./utils/icons";
+import "./App.css";
 
 function App() {
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [mode, setMode] = useState(() => {
+    const saved = localStorage.getItem("theme-mode");
+    return saved || (prefersDarkMode ? "dark" : "light");
+  });
+
+  useEffect(() => {
+    localStorage.setItem("theme-mode", mode);
+    document.documentElement.setAttribute("data-theme", mode);
+  }, [mode]);
+
+  const toggleTheme = () => {
+    setMode((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   useEffect(() => {
     if (search === "") {
@@ -20,7 +46,7 @@ function App() {
       setIsLoading(false);
       return;
     }
-    if (!isLoading) setIsLoading(true);
+    setIsLoading(true);
     const timer = setTimeout(async () => {
       const data = await fetch(
         `https://api.fda.gov/drug/label.json${search.length > 0
@@ -39,83 +65,150 @@ function App() {
     return () => {
       clearTimeout(timer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
-  console.log(searchData);
 
   return (
-    <>
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ p: 1 }}
-      >
-        <TextField
-          id="outlined-password-input"
-          label="Nombre del medicamento"
-          type="text"
-          autoComplete="off"
-          sx={{ width: 1 / 3 }}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {isLoading && (
-          <IconLoading style={{ margin: "20px 0 0 0" }} className="spinwheel">
-            C
-          </IconLoading>
-        )}
-      </Grid>
-
-      <br />
-
-      {searchData?.map((drugData) => (
-        <Link
-          key={drugData.openfda.product_ndc}
-          to={`/product/${drugData.id}`}
-          style={{ textDecoration: "none" }} // Aquí se quita el subrayado
-        >
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            sx={{ p: 1 }}
+    <Box className={`app-container ${mode}`}>
+      <Box className="theme-toggle-corner">
+        <Tooltip title="Cambiar tema">
+          <IconButton
+            onClick={toggleTheme}
+            className="theme-button"
+            aria-label="toggle theme"
           >
-            <Card
-              variant="outlined"
-              sx={{
-                width: 11 / 12,
-                "&:hover": { boxShadow: "0 4px 20px rgba(0,0,0,0.1)" },
-              }}
-            >
-              <Box sx={{ p: 3 }}>
-                <Stack
-                  direction={{ xs: "column", sm: "row" }} // Cambio de dirección en tamaños de pantalla diferentes
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography gutterBottom variant="h6" component="div">
-                    {drugData.openfda.brand_name}
-                  </Typography>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    sx={{ mt: { xs: 1, sm: 0 } }} // Añade margen superior en tamaños pequeños
-                  >
-                    {drugData.openfda.manufacturer_name}
-                  </Typography>
-                </Stack>
-                <Typography color="text.secondary" variant="body2">
-                  {drugData.indications_and_usage}
-                </Typography>
+            {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </Tooltip>
+      </Box>
+
+      <Box className="hero-section">
+        <Box className="hero-background" />
+
+        <Container maxWidth="md">
+          <Box className="hero-content">
+            <Box className="logo-section">
+              <Box className="logo-icon">
+                <PharmacyIcon fontSize="large" />
               </Box>
-            </Card>
-          </Grid>
-        </Link>
-      ))}
-    </>
+              <Typography variant="h3" className="app-title">
+                MediSearch
+              </Typography>
+            </Box>
+
+            <Typography variant="h6" className="tagline">
+              Tu buscador confiable de medicamentos aprobados por la FDA
+            </Typography>
+
+            <Box className="search-container">
+              <SearchIcon className="search-icon" />
+              <TextField
+                id="medicine-search"
+                placeholder="Busca por nombre de medicamento..."
+                type="text"
+                autoComplete="off"
+                className="search-input"
+                onChange={(e) => setSearch(e.target.value)}
+                InputProps={{ disableUnderline: true }}
+                variant="standard"
+              />
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      <Container maxWidth="lg">
+        <Box className="results-section">
+          {isLoading && (
+            <Fade in={isLoading}>
+              <Box className="loading-container">
+                <Box className="pulse-spinner">
+                  <Box className="pulse-ring" />
+                  <Box className="pulse-ring delay-1" />
+                  <Box className="pulse-ring delay-2" />
+                  <Box className="pulse-core">
+                    <PharmacyIcon />
+                  </Box>
+                </Box>
+                <Typography className="loading-text">Buscando...</Typography>
+              </Box>
+            </Fade>
+          )}
+
+          <Fade in={searchData?.length > 0 && !isLoading}>
+            <Box className="results-container">
+              {searchData?.map((drugData, index) => {
+                const fullText = drugData.indications_and_usage?.[0] || "";
+                const truncatedText = fullText.substring(0, 200) + (fullText.length > 200 ? "..." : "");
+
+                return (
+                  <Fade in={!isLoading} key={drugData.openfda?.product_ndc?.[0] || index}>
+                    <Card className="drug-card">
+                      <Box className="card-header">
+                        <Box className="drug-info">
+                          <Typography variant="h5" className="drug-name">
+                            {drugData.openfda?.brand_name?.[0] || "Nombre no disponible"}
+                          </Typography>
+                          <Chip
+                            icon={<PharmacyIcon />}
+                            label={
+                              drugData.openfda?.manufacturer_name?.[0] ||
+                              "Fabricante desconocido"
+                            }
+                            className="manufacturer-chip"
+                            size="small"
+                          />
+                        </Box>
+                      </Box>
+
+                      <Box className="card-body">
+                        <Box className="drug-purpose-wrapper">
+                          <Typography className="drug-purpose">
+                            {truncatedText}
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      <Box className="card-footer">
+                        <Link
+                          to={`/product/${drugData.id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Button
+                            size="small"
+                            className="detail-button"
+                            endIcon={<ArrowForwardIcon />}
+                          >
+                            Ver detalles
+                          </Button>
+                        </Link>
+                      </Box>
+                    </Card>
+                  </Fade>
+                );
+              })}
+            </Box>
+          </Fade>
+
+          {!isLoading && search.length > 0 && searchData?.length === 0 && (
+            <Box className="no-results">
+              <PharmacyIcon className="no-results-icon" />
+              <Typography variant="h6">
+                No se encontraron resultados
+              </Typography>
+              <Typography variant="body2">
+                Intenta con otro nombre de medicamento
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Container>
+
+      <Box className="footer">
+        <Typography variant="body2">
+          Datos proporcionados por la API pública de la FDA
+        </Typography>
+      </Box>
+    </Box>
   );
 }
 
